@@ -27,9 +27,9 @@ h1 {
 
 .image {
     width: 20rem;
-    height: 25rem;
+    height: 30rem;
     border-radius: 2rem;
-    background-image: url("./img/cutegif.gif");
+    background-image: url("./img/boot_dance_invitation.JPG");
     background-position: center;
     background-size: cover;
 }
@@ -39,7 +39,8 @@ h1 {
     width: 20rem;
     display: flex;
     justify-content: space-between;
-]
+    align-items: center;
+    min-height: 4.5rem;
 }
 
 button {
@@ -51,7 +52,6 @@ button {
 }
 
 #yessir {
-    margin-left: 13rem;
     background-color: #FFF;
     transition: 0.3s all ease-in-out;
 }
@@ -65,9 +65,8 @@ body {
 }
 
 #nooo {
-    position: absolute;
-    left: 0;
-    transition: 0.2s all ease-in-out;
+    position: relative;
+    transition: left 0.2s ease-in-out, top 0.2s ease-in-out, transform 0.2s ease-in-out;
 }
 
 #yessir:hover {
