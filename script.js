@@ -3,7 +3,6 @@ const noButton = document.getElementById('nooo')
 
 const MARGIN = 16
 const SAFE_CURSOR_DISTANCE = 120
-const isCompactScreen = window.matchMedia('(max-width: 430px), (max-height: 700px)').matches
 
 const randomBetween = (min, max) => Math.floor(Math.random() * (max - min + 1)) + min
 
@@ -17,10 +16,6 @@ const overlap = (a, b, padding = 0) => {
 }
 
 const moveNoButton = (cursorX, cursorY) => {
-    if (isCompactScreen) {
-        return
-    }
-
     const noRect = noButton.getBoundingClientRect()
     const yesRect = yesButton.getBoundingClientRect()
     const maxX = Math.max(MARGIN, window.innerWidth - noRect.width - MARGIN)
