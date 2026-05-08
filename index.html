@@ -6,17 +6,24 @@
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="stylesheet" href="./style.css">
+    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js" defer></script>
     <script src="script.js" defer></script>
     <title>Boot Dance Invitation</title>
 </head>
 <body>
-<h1>Hey purdy lady Cynthia, are you free on the night of April 25th?</h1>
+<h1>Hey purdy lady Cynthia, are you free on May 9th?</h1>
 <article>
-    <div class="image"></div>
+    <div class="image">
+        <video autoplay loop muted playsinline id="bgvideo">
+            <source src="./img/date_invitation.mp4" type="video/mp4">
+            Your browser does not support the video. <a href="./img/date_invitation.mp4">Download video</a>
+        </video>
+    </div>
     <div class="btns">
         <button id="yessir">Ja!</button>
         <button id="nooo">No :( </button>
     </div>
+    <p id="email-status" aria-live="polite"></p>
 </article>
 </body>
 </html>

@@ -29,18 +29,44 @@ h1 {
     width: 20rem;
     height: 30rem;
     border-radius: 2rem;
-    background-image: url("./img/boot_dance_invitation.JPG");
-    background-position: center;
-    background-size: cover;
+    position: relative;
+    overflow: hidden;
+    background-color: #000;
 }
 
-.btns {
-    position: relative;
-    width: 20rem;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+.image video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: top center;
+    display: block;
+}
+
+.image video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center 35%;
+    display: block;
+}
+.image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center 35%;
+    display: block;
+}
     min-height: 4.5rem;
+}
+
+#email-status {
+    min-height: 1.5rem;
+    margin-top: 0.25rem;
+    color: #fff;
+    font-family: "JetBrains Mono", sans-serif;
+    font-size: 0.95rem;
+    font-weight: 700;
+    text-align: center;
 }
 
 button {

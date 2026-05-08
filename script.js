@@ -1,5 +1,54 @@
 const yesButton = document.getElementById('yessir')
 const noButton = document.getElementById('nooo')
+const emailStatus = document.getElementById('email-status')
+
+const EMAILJS_CONFIG = {
+    publicKey: 'BewoEG1APDGfv8yZ3',
+    serviceId: 'service_lqq8jup',
+    templateId: 'template_a3pe36j',
+    toEmail: 'danielus.tangleyuan@gmail.com'
+}
+
+let emailClientReady = false
+
+const hasEmailConfig = () => {
+    return Object.values(EMAILJS_CONFIG).every((value) => value && !String(value).startsWith('YOUR_'))
+}
+
+const initEmailClient = () => {
+    if (emailClientReady || !window.emailjs || !hasEmailConfig()) {
+        return
+    }
+
+    window.emailjs.init({ publicKey: EMAILJS_CONFIG.publicKey })
+    emailClientReady = true
+}
+
+const sendDateAcceptedEmail = async () => {
+    try {
+        initEmailClient()
+
+        if (!emailClientReady) {
+            return false
+        }
+
+        await window.emailjs.send(
+            EMAILJS_CONFIG.serviceId,
+            EMAILJS_CONFIG.templateId,
+            {
+                to_email: EMAILJS_CONFIG.toEmail,
+                accepted_at: new Date().toLocaleString(),
+                page_url: window.location.href,
+                message: 'She clicked Ja! and agreed to go on a date.'
+            }
+        )
+
+        return true
+    } catch (error) {
+        console.error('Failed to send acceptance email:', error)
+        return false
+    }
+}
 
 const MARGIN = 16
 const SAFE_CURSOR_DISTANCE = 120
@@ -52,8 +101,21 @@ const moveNoButton = (cursorX, cursorY) => {
     noButton.style.zIndex = '20'
 }
 
-yesButton.addEventListener('click', () => {
-    window.location.href = './yes.html'
+yesButton.addEventListener('click', async () => {
+    yesButton.disabled = true
+    yesButton.textContent = 'Sending...'
+
+    const emailSent = await sendDateAcceptedEmail()
+
+    if (emailStatus) {
+        emailStatus.textContent = emailSent ? 'Email sent' : 'Could not send email'
+    }
+
+    yesButton.textContent = emailSent ? 'Ja! Sent' : 'Ja!'
+
+    setTimeout(() => {
+        window.location.href = './yes.html'
+    }, 900)
 })
 
 noButton.addEventListener('mouseenter', (event) => {
@@ -89,3 +151,42 @@ document.addEventListener('mousemove', (event) => {
         moveNoButton(event.clientX, event.clientY)
     }
 })
+
+// Background video fallback: try to play, and if it fails, replace with a GIF fallback
+function handleBgVideoFailure(video) {
+    console.warn('Background video failed to play, switching to GIF fallback')
+    const container = video.parentElement
+    if (!container) return
+
+    const img = document.createElement('img')
+    img.src = './img/cutegif.gif'
+    img.alt = 'Invitation animation fallback'
+    img.style.width = '100%'
+    img.style.height = '100%'
+    img.style.objectFit = 'cover'
+    img.style.display = 'block'
+
+    container.innerHTML = ''
+    container.appendChild(img)
+
+    const status = document.getElementById('email-status')
+    if (status) status.textContent = 'Video not supported; showing fallback.'
+}
+
+function setupBgVideo() {
+    const video = document.getElementById('bgvideo')
+    if (!video) return
+
+    // Listen for error events
+    video.addEventListener('error', () => handleBgVideoFailure(video))
+    video.addEventListener('stalled', () => handleBgVideoFailure(video))
+
+    // Some browsers return a promise for play(); catch rejection
+    const playPromise = video.play()
+    if (playPromise && typeof playPromise.catch === 'function') {
+        playPromise.catch(() => handleBgVideoFailure(video))
+    }
+}
+
+// Initialize when DOM is ready (script is deferred, so DOM is loaded)
+setupBgVideo()
